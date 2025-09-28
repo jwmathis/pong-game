@@ -1,8 +1,9 @@
-
+// --- 4. Main entry point ---
 import {startGame, handlePlayerInput, handleResetGame, setAIDifficulty} from './controller.js';
 import { handleResize } from './view.js';
 import { DIFFICULTY } from "./model.js";
-// --- INITIALIZATION ---
+import { initializeAudio } from "./audio.js";
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const resetButton = document.getElementById('resetButton');
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hardButton) {
         hardButton.addEventListener('click', () => setAIDifficulty(DIFFICULTY.HARD, 'Hard'));
     }
+    initializeAudio();
 });
 
 window.onload = () => {

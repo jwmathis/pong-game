@@ -7,18 +7,19 @@ let animationFrameId;
 /**
  * The main game loop driven by requestAnimationFrame.
  */
-function updateDifficultyDisplay(label) {
-    const displayElement = document.getElementById('difficultyDisplay');
-    if (displayElement) {
-        displayElement.textContent = `Difficulty: ${label}`;
-    }
-}
 function gameLoop() {
     if (!gameState.paused) {
         updateState();
     }
     render();
     animationFrameId = requestAnimationFrame(gameLoop);
+}
+
+function updateDifficultyDisplay(label) {
+    const displayElement = document.getElementById('difficultyDisplay');
+    if (displayElement) {
+        displayElement.textContent = `Difficulty: ${label}`;
+    }
 }
 
 /**
@@ -74,6 +75,9 @@ export function handlePlayerInput(event) {
     }
 }
 
+/**
+ * Handles resetting game state
+ */
 export function handleResetGame() {
     resetGame();
 
@@ -84,6 +88,9 @@ export function handleResetGame() {
     console.log('Game Loop Complete!');
 }
 
+/**
+ * Handles changing the computer paddle speed/difficulty
+ */
 export function setAIDifficulty(speed, label) {
     gameState.computerPaddle.speed = speed;
     gameState.currentDifficultyLabel = label; // Update model state

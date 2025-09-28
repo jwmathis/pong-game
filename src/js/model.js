@@ -1,6 +1,7 @@
 // --- 1. MODEL (Game State and Logic) ---
 // Constants
 import {handleResize} from "./view.js";
+import { playSound } from "./audio.js";
 
 export const CANVAS_WIDTH_RATIO = 16;
 export const CANVAS_HEIGHT_RATIO = 9;
@@ -46,6 +47,7 @@ export const gameState = {
  * Initializes the game state, canvas context, and sets initial positions.
  */
 export function initGame() {
+    playSound('start');
     gameState.ctx = gameState.canvas.getContext('2d');
     handleResize(); // Set initial canvas dimensions
     gameState.playerPaddle.y = (gameState.gameBoardHeight - gameState.playerPaddle.height) / 2;
@@ -101,6 +103,7 @@ export function updateState() {
     // 3. Wall Collision (Top/Bottom)
     if (gameState.ball.y - gameState.ball.radius < 0 || gameState.ball.y + gameState.ball.radius > gameState.gameBoardHeight) {
         gameState.ball.dy *= -1;
+        playSound('wallHit');
     }
 
     // 4. Paddle Collisions
@@ -118,12 +121,14 @@ export function updateState() {
 
             if (isHittingPlayer || isHittingComputer) {
                 gameState.ball.dx *= -1; // Reverse direction
-                gameState.ball.speed += 0.2; // Increase speed slightly
+                gameState.ball.speed += 0.7; // Increase speed slightly
 
                 // Calculate hit point relative to paddle center
                 const relativeIntersectY = (paddle.y + (paddle.height / 2)) - gameState.ball.y;
                 const normalizedRelativeIntersectionY = relativeIntersectY / (paddle.height / 2);
                 const bounceAngle = normalizedRelativeIntersectionY * (Math.PI / 4); // Max 45 degrees
+
+                playSound('paddleHit');
 
                 // Update direction based on hit angle
                 gameState.ball.dx = gameState.ball.speed * Math.cos(bounceAngle) * (isPlayer ? 1 : -1);
@@ -139,13 +144,18 @@ export function updateState() {
     // 5. Score Update (Ball missed a paddle)
     if (gameState.ball.x < 0) {
         gameState.computerScore++;
+        playSound('score');
         resetBall();
     } else if (gameState.ball.x > gameState.gameBoardWidth) {
         gameState.playerScore++;
+        playSound('score');
         resetBall();
     }
 }
 
+/**
+ * Handles reset logic
+ */
 export function resetGame() {
     gameState.playerScore = 0;
     gameState.computerScore = 0;
