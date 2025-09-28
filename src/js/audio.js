@@ -7,7 +7,7 @@ const soundPaths = {
 
 const audioCache = {};
 
-// NEW: Global flag to track if audio playback is permitted
+
 let audioUnlocked = false;
 
 /**
@@ -17,13 +17,10 @@ export function initializeAudio() {
     console.log("Initializing audio assets...");
     for (const key in soundPaths) {
         if (soundPaths.hasOwnProperty(key)) {
-            // Use HTML5 Audio element to load and play sounds
             const audio = new Audio(soundPaths[key]);
             audio.preload = 'auto'; // Start loading immediately
             audio.volume = 0.5; // Set default volume
             audioCache[key] = audio;
-
-            // Optional: Listen for errors to debug WAV format issues
             audio.onerror = (e) => {
                 console.error(`Error loading audio file: ${key}. Check path and WAV encoding.`, e);
             };
@@ -33,7 +30,6 @@ export function initializeAudio() {
 
 /**
  * Plays a specific sound effect from the cache.
- * @param {string} soundName - The key of the sound to play (e.g., 'pongpaddle').
  */
 export function playSound(soundName) {
     // Only attempt to play if audio is unlocked
@@ -48,7 +44,7 @@ export function playSound(soundName) {
         // Reset the audio time to 0 to allow the sound to be played again quickly
         audio.currentTime = 0;
         audio.play().catch(e => {
-            // Catch and report errors, but the main lock is handled by the check above
+            // Catch and report errors
             if (e.name !== 'NotAllowedError') {
                 console.error(`Error playing ${soundName}:`, e);
             }
@@ -60,8 +56,6 @@ export function playSound(soundName) {
 
 /**
  * Attempts to unlock the browser's audio context using the pongstart sound file.
- * This is the most reliable method, as it links the user interaction directly
- * to a known audio resource.
  */
 export function unlockAudio() {
     if (audioUnlocked) return;
@@ -85,8 +79,7 @@ export function unlockAudio() {
         document.removeEventListener('keydown', unlockAudio);
 
     }).catch(e => {
-        // Failure: Playback is still disallowed (usually 'NotAllowedError')
+        // Failure: Playback is still disallowed
         console.warn("Audio unlock still blocked. Please click or tap the screen again.", e);
-        // We keep the listeners active, hoping the next interaction will succeed.
     });
 }

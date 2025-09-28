@@ -121,7 +121,7 @@ export function updateState() {
 
             if (isHittingPlayer || isHittingComputer) {
                 gameState.ball.dx *= -1; // Reverse direction
-                gameState.ball.speed += 0.7; // Increase speed slightly
+                gameState.ball.speed += 0.4; // Increase ball speed slightly after each hit
 
                 // Calculate hit point relative to paddle center
                 const relativeIntersectY = (paddle.y + (paddle.height / 2)) - gameState.ball.y;
