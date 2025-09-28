@@ -4,32 +4,77 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pong Game</title>
+    <!-- Using Tailwind CDN for utility classes -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        #game-board {
-            aspect-ratio: 16 / 9;
-            position: relative;
-            background-color: black;
+        /* Custom CSS for the canvas and overall layout */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1f2937; /* Dark Gray */
+            color: #f9fafb; /* Light Gray */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
-        #game-board::before {
-            content: "";
-            position: absolute;
-            width: 4px;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: white;
+        #game-container {
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background-color: #000000;
+            border: 4px solid #f9fafb;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        #instructions {
+            background-color: #374151;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            width: 90%;
+            max-width: 900px;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white flex flex-col justify-center items-center h-screen">
-<div class="text-4xl mb-4" id="score">0 - 0</div>
-<div id="game-board" class="w-full max-w-4xl border-4 border-white">
-    <div id="player-paddle" class="absolute w-4 h-24 bg-white"></div>
-    <div id="computer-paddle" class="absolute w-4 h-24 bg-white"></div>
-    <div id="ball" class="absolute w-4 h-4 bg-white rounded-full"></div>
+<body>
+<!--Difficulty Display-->
+<p id="difficultyDisplay" class = "text-xl mb-4 font-semibold text-yellow-400"> Difficulty: Medium</p>
+<!--Game-->
+<div id="game-container">
+    <canvas id="pongCanvas"></canvas>
 </div>
-<script type="module" src="./src/js/main.js"></script>
+<!--Difficulty Button Selection-->
+<div class = "flex space-x-4 mt-4 mb-2">
+    <button id="easyButton" class = "px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow-xl transition duration-150 ease-in-out transform hover:scale-105">
+        Easy
+    </button>
+
+    <button id="mediumButton" class = "px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-bold rounded-lg shadow-xl transition duration-150 ease-in-out transform hover:scale-105">
+        Medium
+    </button>
+
+    <button id="hardButton" class = "px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-xl transition duration-150 ease-in-out transform hover:scale-105">
+        Hard
+    </button>
+</div>
+<!--Reset Button-->
+<button id="resetButton"  class = "mt-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-lg shadow-xl transition duration-150 ease-in-out transform hover:scale-105">Restart Game (R)</button>
+<!--Instructions-->
+<div id="instructions" class="text-sm md:text-base">
+    <h3 class="text-xl font-bold mb-2 text-yellow-300">How to Play:</h3>
+    <p>Use the **W** and **S** keys or **Up** and **Down** arrow keys to move your paddle (on the left).</p>
+    <p>The computer controls the paddle on the right.</p>
+    <p class="mt-2 text-gray-300">Select difficulty above, press **R** or the Restart button to begin a new match.</p>
+    <p class="mt-2 text-gray-300">Press **P** to Pause/Resume.</p>
+</div>
+<!-- Link to main JavaScript entry file -->
+<script type="module" src="src/js/main.js"></script>
 </body>
 </html>
