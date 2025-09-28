@@ -1,3 +1,5 @@
+Access the Game here: https://jwmathis.github.io/pong-game/
+
 ## Project Documentation: Canvas Pong Game
 ### 1. Overview
 This is a modern, responsive implementation of the classic Pong arcade game, built entirely using HTML5 Canvas and vanilla JavaScript. The project follows the Model-View-Controller (MVC) architectural pattern to ensure clean separation of game logic, rendering, and input handling.
